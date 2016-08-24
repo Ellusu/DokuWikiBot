@@ -50,6 +50,11 @@
                 die;
             }
             $this->column = $this->getDokusColumnsName($page);
+            if(count($this->column) == 1) {
+                $this->telegram->message(search_null);
+                die;
+            }
+            
             if($page==$req || !$rev[1]){
                 $this->telegram->message(implode(acapo, $this->column));
                 die;
