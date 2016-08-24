@@ -1,18 +1,18 @@
 <?php
 /**
  *  titolo: DokuWikiBot
- *  autore: Matteo Enna (http://matteoenna.it)
+ *  autore: Matteo Enna
  *  licenza GPL3
  **/
 
     class dokuimporterClass {
                 
-        function __construct(){
+        public function __construct(){
             $this->telegram = new telegramClass();
             
         }
         
-        function getProcess(){
+        public function getProcess(){
             $message = $this->telegram->getMessage();
                 
             $this->page = $this->getDokusPages(true);
@@ -36,7 +36,7 @@
             }
         }
         
-        function messageType($req){        
+        public function messageType($req){        
             $rev = explode("-", $req);
             if(count($rev)==1)
                 $page = $req;
@@ -89,7 +89,7 @@
             
         }
         
-        function getDokusPages($key=FALSE){
+        public function getDokusPages($key=FALSE){
             $page_list = array();
             $pages = scandir(doku_data);
             foreach($pages as $k => $page){
@@ -103,7 +103,7 @@
             return $page_list;
         }
         
-        function getDokusColumnsName($page){            
+        public function getDokusColumnsName($page){            
             if($file=$this->getDokusFile($page)){
                 return $this->scanPage($file);
             }else{
@@ -111,7 +111,7 @@
             }
         }
         
-        function getDokusColumnsContent($page){            
+        public function getDokusColumnsContent($page){            
             if($file=$this->getDokusFile($page)){
                 return $this->createTable($file);
             }else{
@@ -119,14 +119,14 @@
             }
         }
         
-        function getDokusFile($page){
+        public function getDokusFile($page){
             $page_list = $this->getDokusPages();
             $file = file_get_contents(doku_data.$page_list[$page]);
             if(!$file) return FALSE;
             return $file;
         }
         
-        function scanPage($file){
+        public function scanPage($file){
             $rows = explode(chr(10), $file);
             foreach($rows as $k => $row){
                 if($row[0]=="^"){
@@ -138,7 +138,7 @@
             return FALSE;
         }
         
-        function createTable($file){
+        public function createTable($file){
             $check = FALSE;
             $table = array();
             $rows = explode(chr(10), $file);
@@ -161,7 +161,7 @@
             return FALSE;            
         }
         
-        function findData($req){
+        public function findData($req){
             $rev = explode("-",$req);
             $page = $rev[0];
             $res = explode(":",$rev[1]);
