@@ -1,16 +1,16 @@
 <?php
 /**
  *  titolo: DokuWikiBot
- *  autore: Matteo Enna (http://matteoenna.it)
+ *  autore: Matteo Enna
  *  licenza GPL3
  **/
 
     class telegramClass {
         
-        public $chatID = 0;
-        public $message_text = "";
+        private $chatID = 0;
+        private $message_text = "";
         
-        function __construct(){
+        public function __construct(){
             $content = file_get_contents("php://input");
             $update = json_decode($content, true);
             $this->chatID = $update["message"]["chat"]["id"];
@@ -22,12 +22,12 @@
             }
         }
         
-        function message($message){
+        public function message($message){
             $sendto =API_URL."sendmessage?chat_id=".$this->chatID."&text=".urlencode($message);
             file_get_contents($sendto);
         }
         
-        function getMessage(){
+        public function getMessage(){
             return $this->message_text;
         }
         
